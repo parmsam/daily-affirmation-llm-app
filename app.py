@@ -42,6 +42,7 @@ app_ui = ui.page_fluid(
                 selected=""
             ),
             ui.input_action_button("generate", "Generate Affirmation"),
+            open="open",
         ),
         ui.h3("Your Daily Affirmation"),
         ui.output_text("affirmation_output"),
