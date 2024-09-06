@@ -45,6 +45,8 @@ app_ui = ui.page_fluid(
                     "George Costanza",
                     "Kramer",
                     "Elon Musk",
+                    "Borat",
+                    "Kim Kardashian",
                 ],
                 selected=""
             ),
