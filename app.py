@@ -38,6 +38,13 @@ app_ui = ui.page_fluid(
                     "Dwight Schrute",
                     "Michael Scott",
                     "Donald Trump",
+                    "Stewie Griffin",
+                    "Peter Griffin",
+                    "Chandler Bing",
+                    "Dr. Gregory House",
+                    "George Costanza",
+                    "Kramer",
+                    "Elon Musk",
                 ],
                 selected=""
             ),
