@@ -1,6 +1,8 @@
 from shiny import App, reactive, render, ui
 from openai import OpenAI
 import os
+import base64
+from gtts import gTTS
 
 try:
     from setup import api_key1
@@ -60,6 +62,8 @@ app_ui = ui.page_fluid(
         ),
         ui.h3("Your Daily Self-Affirmation"),
         ui.output_text("affirmation_output"),
+        ui.input_action_button("speak", "Speak"),
+        ui.output_ui("audio_output"),
     )
 )
 
@@ -100,6 +104,11 @@ def server(input, output, session):
             )
             response_data = response.choices[0].message.content
             affirmation.set(response_data)
+            # Clear the audio file
+            if os.path.exists("speech.mp3"):
+                os.remove("speech.mp3")
+                # remove the audio tag from the UI
+                
         except Exception as e:
             ui.notification_show(f"Error: {str(e)}", type="error")
 
@@ -107,5 +116,29 @@ def server(input, output, session):
     @render.text
     def affirmation_output():
         return affirmation()
+    
+    @reactive.Effect
+    @reactive.event(input.speak)
+    def speak_text():
+        text = affirmation.get()
+        if text == "":
+            text = "You have not generated an affirmation yet."
+        if text:
+            # replace " with nothing to avoid issues with the TTS"
+            text = text.replace('"', "")
+            tts = gTTS(text=text, lang='en')
+            tts.save("speech.mp3")
+            
+    @render.ui
+    @reactive.event(input.speak, input.generate)
+    def audio_output():
+        if os.path.exists("speech.mp3"):
+            with open("speech.mp3", "rb") as audio_file:
+                encoded = base64.b64encode(audio_file.read()).decode()
+            return ui.tags.audio(
+                ui.tags.source(src=f"data:audio/mp3;base64,{encoded}", type="audio/mp3"),
+                controls=True
+            )
+        return ui.p("Click 'Speak' to hear the text.")
 
 app = App(app_ui, server)
