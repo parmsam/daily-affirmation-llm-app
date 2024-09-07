@@ -114,7 +114,8 @@ def server(input, output, session):
             if os.path.exists("speech.mp3"):
                 os.remove("speech.mp3")
                 # remove the audio tag from the UI
-                
+            ui.notification_show(f"""Success! Affirmation generated. See the 'Your 
+            Daily Self-Affirmation' page.""", type="success")
         except Exception as e:
             ui.notification_show(f"Error: {str(e)}", type="error")
 
