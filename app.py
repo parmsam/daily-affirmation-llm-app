@@ -8,6 +8,11 @@ try:
     from setup import api_key1
 except ImportError:
     api_key1 = os.getenv("OPENAI_API_KEY")
+    
+app_info = """
+This app creates a daily affirmation using the OpenAI API based on a theme and
+optional character. 
+"""
 
 app_ui = ui.page_fluid(
     ui.h1("Daily Morning Affirmation Generator"),
@@ -61,6 +66,7 @@ app_ui = ui.page_fluid(
             open="open",
         ),
         ui.h3("Your Daily Self-Affirmation"),
+        # ui.markdown(app_info),
         ui.output_text("affirmation_output"),
         ui.input_action_button("speak", "Speak"),
         ui.output_ui("audio_output"),
