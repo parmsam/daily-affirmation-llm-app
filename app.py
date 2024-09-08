@@ -36,7 +36,7 @@ app_ui = ui.page_fluid(
             ),
             ui.input_select(
                 "character",
-                "Character",
+                "Optional Character",
                 choices=[
                     "",
                     "Marvin the Paranoid Android",
